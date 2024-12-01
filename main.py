@@ -3,10 +3,12 @@ import urllib.parse
 import json
 import logging
 import socket
+import os
 from pathlib import Path
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from threading import Thread
 from datetime import datetime
+
 
 BASE_DIR = Path()
 BUFFER_SIZE = 1024
@@ -65,6 +67,7 @@ def save_data_from_form(data):
     parse_data = urllib.parse.unquote_plus(data.decode())
     try:
         parse_dict = {key: value for key, value in [el.split('=') for el in parse_data.split('&')]}
+        os.makedirs("storage", exist_ok=True)
         try:
             with open("storage/data.json", 'r', encoding='utf-8') as file:
                 data = json.load(file)
